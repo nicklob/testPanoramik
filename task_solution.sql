@@ -45,10 +45,3 @@ INSERT INTO `profile_status_dist` VALUES ('profile_id_1','2021-09-23 00:00:00',0
 UNLOCK TABLES;
 
 SELECT purchases_count_for_player as purchases_count, COUNT(profile_id) as players, SUM(purchases_count_for_player) as transactions, ROUND(SUM(total_gross_for_user),2) as total_gross, ROUND(AVG(total_gross_for_user),2) as ARPPU, ROUND(SUM(total_gross_for_user)/SUM(purchases_count_for_player),2) as avg_check FROM (SELECT COUNT(lot_string_id) as purchases_count_for_player, profile_id, SUM(price_usd) as total_gross_for_user FROM purchases_dist WHERE profile_id IN (SELECT profile_id FROM profile_status_dist WHERE install_day>="2021-09-22" AND qa=0) GROUP BY profile_id ) money_from_user GROUP BY purchases_count_for_player;
-+-----------------+---------+--------------+-------------+-------+-----------+
-| purchases_count | players | transactions | total_gross | ARPPU | avg_check |
-+-----------------+---------+--------------+-------------+-------+-----------+
-|               2 |       1 |            2 |        1.98 |  1.98 |      0.99 |
-|               3 |       2 |            6 |      165.94 | 82.97 |     27.66 |
-|               8 |       1 |            8 |       92.92 | 92.92 |     11.62 |
-+-----------------+---------+--------------+-------------+-------+-----------+
